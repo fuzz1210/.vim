@@ -1,0 +1,8 @@
+*
+*/
+
+!.gitignore
+!vimrc
+!plugins.toml
+!colors
+!colors/**
