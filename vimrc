@@ -15,7 +15,7 @@ set fileencodings=utf-8,cp932,euc-jp
 " バックアップファイル・キャッシュを作成しない
 set nobackup
 set noundofile
-set viminfo=
+set viminfo+=n~/.vim/viminfo.txt
 " 保存されていないファイルがあるときでも別のファイルを開くことができる
 set hidden
 " 外部でファイルが変更された場合は読み直す
