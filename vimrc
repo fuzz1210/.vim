@@ -169,7 +169,7 @@ let g:user_emmet_settings={
 
 "--------------------------------------------------
 " keybind
-"--------------------------------------------------
+"
 command Q q!
 nnoremap j gj
 nnoremap k gk
