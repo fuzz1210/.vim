@@ -11,12 +11,6 @@ repo = 'Shougo/neocomplete.vim'
 repo = 'w0ng/vim-hybrid'
 
 [[plugins]]
-repo = 'nanotech/jellybeans.vim'
-
-[[plugins]]
-repo = 'altercation/vim-colors-solarized'
-
-[[plugins]]
 repo = 'scrooloose/nerdtree'
 
 [[plugins]]

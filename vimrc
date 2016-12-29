@@ -46,9 +46,6 @@ set background=dark
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
 colorscheme hybrid
-"colorscheme jellybeans
-"colorscheme solarized
-"let g:solarized_termcolors=256
 
 " フォント
 set guifont=Ricty:10h
