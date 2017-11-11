@@ -5,16 +5,46 @@ repo = 'Shougo/dein.vim'
 repo = 'Shougo/unite.vim'
 
 [[plugins]]
+repo = 'Shougo/vimfiler'
+
+[[plugins]]
+repo = 'Shougo/vimproc'
+
+[[plugins]]
+repo = 'Shougo/vimshell.vim'
+
+[[plugins]]
 repo = 'Shougo/neocomplete.vim'
 
 [[plugins]]
 repo = 'w0ng/vim-hybrid'
 
 [[plugins]]
-repo = 'scrooloose/nerdtree'
+repo = 'arcticicestudio/nord-vim'
 
 [[plugins]]
-repo = 'vim-airline/vim-airline'
+repo = 'sjl/gundo.vim'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+
+[[plugins]]
+repo = 'Townk/vim-autoclose'
+
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'bronson/vim-trailing-whitespace'
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
 
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
@@ -27,12 +57,6 @@ repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'terryma/vim-multiple-cursors'
-
-[[plugins]]
-repo = 'airblade/vim-gitgutter'
-
-[[plugins]]
-repo = 'bronson/vim-trailing-whitespace'
 
 [[plugins]]
 repo = 'mattn/emmet-vim'
