@@ -1,62 +1,343 @@
+# プラグイン管理
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
 repo = 'Shougo/unite.vim'
+hook_add = '''
+nnoremap <Leader><Leader>u :<C-u>Unite<Space>
+'''
 
 [[plugins]]
-repo = 'Shougo/vimfiler'
-
-[[plugins]]
-repo = 'Shougo/vimproc'
+repo = 'Shougo/vimfiler.vim'
+depends = 'unite.vim'
+hook_add = '''
+let g:vimfiler_as_default_explorer=1
+nnoremap <Leader><Leader>f :<c-u>VimFilerExplorer<cr>
+'''
 
 [[plugins]]
 repo = 'Shougo/vimshell.vim'
+hook_add = '''
+nnoremap <silent><Leader><Leader>s :<C-u>VimShell<CR>
+'''
 
+# 自動保管
 [[plugins]]
 repo = 'Shougo/neocomplete.vim'
+hook_add = '''
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_underbar_completion = 1
+let g:neocomplete#enable_camel_case_completion = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+" let g:neocomplete#auto_completion_start_length = 2
+
+if !exists('g:neocomplete#delimiter_patterns')
+    let g:neocomplete#delimiter_patterns= {}
+endif
+
+if !exists('g:neocomplete#same_filetypes')
+    let g:neocomplete#same_filetypes = {}
+endif
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+" <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+"     " For no inserting <CR> key.
+"     return pumvisible() ? "\<C-y>" : "\<CR>"
+" endfunction
+
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
+
+" Enable omni completion.
+if has("autocmd")
+    autocmd!
+    autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+endif
+'''
+
+# カラースキーム
+[[plugins]]
+repo = 'rainglow/vim'
 
 [[plugins]]
-repo = 'w0ng/vim-hybrid'
+repo = 'ayu-theme/ayu-vim'
+
+[[plugins]]
+repo = 'cocopon/iceberg.vim'
 
 [[plugins]]
 repo = 'arcticicestudio/nord-vim'
 
 [[plugins]]
-repo = 'sjl/gundo.vim'
+repo = 'w0ng/vim-hybrid'
 
+# ウィンドウリサイズ
+[[plugins]]
+repo = 'simeji/winresizer'
+hook_add = '''
+let g:winresizer_start_key = 'sR'
+'''
+
+# 非アクティブウィンドウの淡色化
+[[plugins]]
+repo = 'blueyed/vim-diminactive'
+
+# 非アクティブウィンドウのカーソル位置の無色化
+[[plugins]]
+repo = 'mtth/cursorcross.vim'
+hook_add  = '''
+let g:cursorcross_no_map_BS = 1
+let g:cursorcross_dynamic = 'lw'
+'''
+
+# スムーススクロール
+[[plugins]]
+repo = 'yuttie/comfortable-motion.vim'
+hook_add = '''
+let g:comfortable_motion_no_default_key_mappings = 1
+let g:comfortable_motion_impulse_multiplier = 1
+nnoremap <silent> <C-d> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 2)<CR>
+nnoremap <silent> <C-u> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -2)<CR>
+nnoremap <silent> <C-f> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 4)<CR>
+nnoremap <silent> <C-b> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -4)<CR>
+'''
+
+# Undo/Redoの可視化
+[[plugins]]
+repo = 'sjl/gundo.vim'
+hook_add = '''
+nnoremap <silent><Leader><Leader>g :<C-u>GundoToggle<CR>
+'''
+
+# ステータスラインをリッチに
 [[plugins]]
 repo = 'itchyny/lightline.vim'
+hook_add = '''
+let g:lightline = {
+    \ 'colorscheme': 'nord',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+    \   'right': [ [ 'lineinfo' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+    \ },
+    \ 'inactive': {
+    \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+    \   'right': [ [ 'lineinfo' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+    \ },
+    \ 'component_function': {
+    \   'modified':     'LightlineModified',
+    \   'readonly':     'LightlineReadonly',
+    \   'fugitive':     'LightlineFugitive',
+    \   'lineinfo':     'LightlineLineinfo',
+    \   'filename':     'LightlineFilename',
+    \   'fileformat':   'LightlineFileformat',
+    \   'filetype':     'LightlineFiletype',
+    \   'fileencoding': 'LightlineFileencoding',
+    \   'mode':         'LightlineMode',
+    \ },
+    \ 'separator': { 'left': "\u2b80", 'right': "\u2b82" },
+    \ 'subseparator': { 'left': "\u2b81", 'right': "\u2b83" }
+    \ }
 
+function! LightlineModified()
+    return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightlineReadonly()
+    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '\u2b64' : ''
+endfunction
+
+function! LightlineFugitive()
+    try
+        if expand('%:t') !~? 'Tagbar\|Gundo\' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+            let branch = fugitive#head()
+            return 50 < winwidth(0) ? (branch !=# '' ? "\u2b60".branch : '') : ''
+        endif
+    catch
+    endtry
+    return ''
+endfunction
+
+function! LightlineLineinfo()
+    let cl = line(".")
+    let ll = line("$")
+    let cc = col(".")
+    let li = printf("%d/%d:%3d", cl, ll, cc)
+    return 70 < winwidth(0) ? "\u2b61" . li : ''
+endfunction
+
+function! LightlineFilename()
+    let fpath = expand('%:p')
+    return fpath =~ '__Gundo' ? '' :
+        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \ &ft == 'unite' ? unite#get_status_string() :
+        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ ('' != fpath ? fpath : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFileformat()
+    return 70 < winwidth(0) ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+    return 70 < winwidth(0) ? (&filetype !=# '' ? &filetype : 'No FT') : ''
+endfunction
+
+function! LightlineFileencoding()
+    return 70 < winwidth(0) ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightlineMode()
+    let fname = expand('%:t')
+    return fname == '__Gundo__' ? 'Gundo' :
+        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+        \ &ft == 'unite' ? 'Unite' :
+        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ 20 < winwidth(0) ? lightline#mode() :
+        \ lightline#mode() == 'NORMAL' ? 'N' :
+        \ lightline#mode() == 'INSERT' ? 'I':
+        \ lightline#mode() == 'VISUAL' ? 'V' :
+        \ lightline#mode() == 'V-LINE' ? 'VL' :
+        \ lightline#mode() == 'V-BLOCK' ? 'VB' :
+        \ lightline#mode() == 'REPLACE' ? 'R' : ''
+endfunction
+'''
+
+# 閉じ括弧の自動保管
 [[plugins]]
 repo = 'Townk/vim-autoclose'
 
+# 簡単コメントアウト
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 
-[[plugins]]
-repo = 'airblade/vim-gitgutter'
-
+# Gitのラッパー
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
+# Gitのワーキングツリーを行単位で可視化
 [[plugins]]
-repo = 'bronson/vim-trailing-whitespace'
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+set updatetime=250
+let g:gitgutter_diff_args = '-w'
+'''
 
+# 行末の空白の可視化
+[[plugins]]
+repo = 'ntpeters/vim-better-whitespace'
+
+# 高速カーソル移動
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
+hook_add = '''
+let g:EasyMotion_do_mapping=0
+let g:EasyMotion_smartcase=1
+nmap f          <Plug>(easymotion-fl)
+vmap f          <Plug>(easymotion-fl)
+nmap F          <Plug>(easymotion-Fl)
+vmap F          <Plug>(easymotion-Fl)
+nmap t          <Plug>(easymotion-tl)
+vmap t          <Plug>(easymotion-tl)
+nmap T          <Plug>(easymotion-Tl)
+vmap T          <Plug>(easymotion-Tl)
+nmap ;          <Plug>(easymotion-next)
+vmap ;          <Plug>(easymotion-next)
+nmap ,          <Plug>(easymotion-prev)
+vmap ,          <Plug>(easymotion-prev)
+map  <Leader>l  <Plug>(easymotion-lineforward)
+map  <Leader>h  <Plug>(easymotion-linebackward)
+map  <Leader>j  <Plug>(easymotion-j)
+map  <Leader>k  <Plug>(easymotion-k)
+nmap <Leader>f  <Plug>(easymotion-overwin-f)
+vmap <Leader>f  <Plug>(easymotion-bd-f)
+nmap <Leader>2f <Plug>(easymotion-overwin-f2)
+vmap <Leader>2f <Plug>(easymotion-bd-f2)
+nmap <Leader>L  <Plug>(easymotion-overwin-line)
+vmap <Leader>L  <Plug>(easymotion-bd-jk)
+nmap <Leader>w  <Plug>(easymotion-overwin-w)
+vmap <Leader>w  <Plug>(easymotion-bd-w)
+'''
 
+# カーソル位置のワードと同じワードを強調
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
 
+# インデントの可視化
 [[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
+repo = 'Yggdroot/indentLine'
+hook_add = '''
+let g:indentLine_setColors = 0
+let g:indentLine_color_term = 239
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_fileTypeExclude = ['help', 'diff', 'vimfiler', 'gundo']
+'''
 
+# 括弧などの囲いの編集の効率化
 [[plugins]]
 repo = 'tpope/vim-surround'
 
+# カーソル複製
 [[plugins]]
 repo = 'terryma/vim-multiple-cursors'
+hook_add = '''
+let g:multi_cursor_exit_from_visual_mode=0
+let g:multi_cursor_exit_from_insert_mode=0
 
+" for NeoComlete
+function! Multiple_cursors_before()
+    if exists(':NeoCompleteLock')==2
+        exe 'NeoCompleteLock'
+    endif
+endfunction
+
+function! Multiple_cursors_after()
+    if exists(':NeoCompleteUnlock')==2
+        exe 'NeoCompleteUnlock'
+    endif
+endfunction
+'''
+
+# toml syntax
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+# カーソル位置のコンテキストからfiletypeを判別
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+# カーソル位置のコンテキストからfiletypeの切替え
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+# HTMLとCSSの入力高速化
 [[plugins]]
 repo = 'mattn/emmet-vim'
+hook_add = '''
+let g:user_emmet_leader_key = '<C-e>'
+let g:user_emmet_settings = {
+    \   'variables': {
+    \       'lang': "ja"
+    \   }
+    \ }
+'''

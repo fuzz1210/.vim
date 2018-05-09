@@ -6,3 +6,5 @@
 !plugins.toml
 !colors
 !colors/**
+!undo/
+!undo/.gitkeep
