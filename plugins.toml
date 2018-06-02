@@ -159,7 +159,7 @@ function! LightlineModified()
 endfunction
 
 function! LightlineReadonly()
-    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '\u2b64' : ''
+    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? "\u2b64" : ''
 endfunction
 
 function! LightlineFugitive()
