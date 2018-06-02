@@ -83,18 +83,13 @@ set backspace=start,eol,indent
 "
 " カラースキーム
 syntax on
-" if (v:version == 704 && has("patch1799")) || v:version >= 705
+if (v:version == 704 && has("patch1799")) || v:version >= 705
     set termguicolors
-"     let g:ayucolor="mirage"
-"     colorscheme ayu
-"     highlight CursorLine guibg=#191A1B
-"     highlight LineNr     guifg=#5C6773
-"     highlight Comment    guifg=#7C8793
-"     highlight MatchParen guifg=#00ff00 guibg=#494A4B
-" else
+    colorscheme iceberg
+else
     colorscheme hybrid
-    highlight MatchParen ctermfg=green ctermbg=black
-" endif
+    highlight MatchParen ctermfg=green ctermbg=black guifg=green guibg=black
+endif
 
 " フォント
 set guifont=Ricty\ for\ Powerline:h15
