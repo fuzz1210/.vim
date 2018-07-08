@@ -116,10 +116,7 @@ endif
 set showmatch
 
 " インデント
-set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set ex ts=2 sts=2 sw=2
 " インデントのスタイル
 set cindent
 
@@ -136,6 +133,9 @@ set ambiwidth=double
 " 文字の可視化
 set list
 set listchars=eol:↲
+
+" 常にタブページを表示
+set showtabline=2
 
 
 
@@ -194,7 +194,6 @@ nnoremap sp     gT
 nnoremap sw     :<C-u>w<CR>
 nnoremap sq     :<C-u>q<CR>
 nnoremap sx     :<C-u>x<CR>
-nnoremap sz     ZZ
 nnoremap sQ     :<C-u>q!<CR>
 
 vnoremap < <gv
@@ -237,11 +236,11 @@ endif
 
 " 特定の全角文字の可視化
 if has("autocmd")
-    augroup Zenkaku
+    augroup zenkaku
         autocmd!
-        autocmd WinEnter,BufWinEnter * let w:mnum = matchadd("Zenkaku", '[０１２３４５６７８９]')
-        autocmd WinEnter,BufWinEnter * let w:malp = matchadd("Zenkaku", '[ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ]')
-        autocmd WinEnter,BufWinEnter * let w:mALP = matchadd("Zenkaku", '[ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ]')
+        autocmd WinEnter,BufWinEnter * let w:mnum = matchadd("zenkaku", '[０１２３４５６７８９]')
+        autocmd WinEnter,BufWinEnter * let w:malp = matchadd("zenkaku", '[ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ]')
+        autocmd WinEnter,BufWinEnter * let w:mALP = matchadd("zenkaku", '[ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ]')
     augroup END
     highlight Zenkaku term=underline ctermbg=darkred guibg=darkred
 endif
