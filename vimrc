@@ -1,5 +1,5 @@
 if &compatible
-    set nocompatible
+  set nocompatible
 endif
 
 set secure
@@ -13,30 +13,30 @@ let mapleader = "\<Space>"
 "
 " dein
 if v:version >= 704
-    let s:dein_dir      = expand('~/.cache/dein')
-    let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-    let s:dein_toml     = expand('~/.vim/plugins.toml')
+  let s:dein_dir      = expand('~/.cache/dein')
+  let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+  let s:dein_toml     = expand('~/.vim/plugins.toml')
 
-    if &runtimepath !~# '/dein.vim'
-        if !isdirectory(s:dein_repo_dir)
-            execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-        endif
-        execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+  if &runtimepath !~# '/dein.vim'
+    if !isdirectory(s:dein_repo_dir)
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
     endif
+    execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+  endif
 
-    if dein#load_state(s:dein_dir)
-        call dein#begin(s:dein_dir)
-        call dein#load_toml(s:dein_toml)
-        call dein#end()
-        call dein#save_state()
-    endif
+  if dein#load_state(s:dein_dir)
+    call dein#begin(s:dein_dir)
+    call dein#load_toml(s:dein_toml)
+    call dein#end()
+    call dein#save_state()
+  endif
 
-    filetype plugin indent on
-    syntax enable
+  filetype plugin indent on
+  syntax enable
 
-    if has('vim_starting') && dein#check_install()
-        call dein#install()
-    endif
+  if has('vim_starting') && dein#check_install()
+    call dein#install()
+  endif
 endif
 
 
@@ -84,11 +84,11 @@ set backspace=start,eol,indent
 " カラースキーム
 syntax on
 if (v:version == 704 && has("patch1799")) || v:version >= 705
-    set termguicolors
-    colorscheme iceberg
+  set termguicolors
+  colorscheme iceberg
 else
-    colorscheme hybrid
-    highlight MatchParen ctermfg=green ctermbg=black guifg=green guibg=black
+  colorscheme hybrid
+  highlight MatchParen ctermfg=green ctermbg=black guifg=green guibg=black
 endif
 
 " フォント
@@ -110,13 +110,13 @@ set linebreak
 set textwidth=0
 " 折り返した2行目以降の文章もインデント
 if (v:version == 704 && has("patch338")) || v:version >= 705
-    set breakindent
+  set breakindent
 endif
 " 対応する括弧の強調
 set showmatch
 
 " インデント
-set ex ts=2 sts=2 sw=2
+set et ts=2 sts=2 sw=2
 " インデントのスタイル
 set cindent
 
@@ -225,36 +225,36 @@ nnoremap <silent><F5> :source ~/.vimrc<CR>
 " カーソル位置の記憶
 "
 if has("autocmd")
-    augroup redhat
-        autocmd!
-        autocmd BufRead *
-        \   if 0 < line("'\"") && line ("'\"") <= line("$") |
-        \       exe "normal! g'\"" |
-        \   endi
-    augroup END
+  augroup redhat
+    autocmd!
+    autocmd BufRead *
+          \   if 0 < line("'\"") && line ("'\"") <= line("$") |
+          \       exe "normal! g'\"" |
+          \   endi
+  augroup END
 endif
 
 " 特定の全角文字の可視化
 if has("autocmd")
-    augroup zenkaku
-        autocmd!
-        autocmd WinEnter,BufWinEnter * let w:mnum = matchadd("zenkaku", '[０１２３４５６７８９]')
-        autocmd WinEnter,BufWinEnter * let w:malp = matchadd("zenkaku", '[ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ]')
-        autocmd WinEnter,BufWinEnter * let w:mALP = matchadd("zenkaku", '[ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ]')
-    augroup END
-    highlight Zenkaku term=underline ctermbg=darkred guibg=darkred
+  augroup zenkaku
+    autocmd!
+    autocmd WinEnter,BufWinEnter * let w:mnum = matchadd("zenkaku", '[０１２３４５６７８９]')
+    autocmd WinEnter,BufWinEnter * let w:malp = matchadd("zenkaku", '[ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ]')
+    autocmd WinEnter,BufWinEnter * let w:mALP = matchadd("zenkaku", '[ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ]')
+  augroup END
+  highlight Zenkaku term=underline ctermbg=darkred guibg=darkred
 endif
 
 " ペースト時インデントが階段状にならないようにする
 if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
+  let &t_SI .= "\e[?2004h"
+  let &t_EI .= "\e[?2004l"
+  let &pastetoggle = "\e[201~"
 
-    function! XTermPasteBegin(ret)
-        set paste
-        return a:ret
-    endfunction
+  function! XTermPasteBegin(ret)
+    set paste
+    return a:ret
+  endfunction
 
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
