@@ -83,23 +83,20 @@ set backspace=start,eol,indent
 "
 " カラースキーム
 syntax on
-if (v:version == 704 && has("patch1799")) || v:version >= 705
+if(has('termguicolors'))
   set termguicolors
-  colorscheme iceberg
+  colorscheme material
 else
   colorscheme hybrid
   highlight MatchParen ctermfg=green ctermbg=black guifg=green guibg=black
 endif
 
-" フォント
-set guifont=Ricty\ for\ Powerline:h15
-set guifontwide=Ricty\ for\ Powerline:h15
-
 " 行番号
 set number
 set relativenumber
-" カーソル行の強調
+" カーソル位置の強調
 set cursorline
+set cursorcolumn
 " 行間
 set linespace=4
 " 文章を画面幅で折り返し
@@ -109,31 +106,24 @@ set linebreak
 " 折り返しに文字数制限しない
 set textwidth=0
 " 折り返した2行目以降の文章もインデント
-if (v:version == 704 && has("patch338")) || v:version >= 705
+if (v:version == 704 && has("patch338")) || 704 < v:version
   set breakindent
 endif
 " 対応する括弧の強調
 set showmatch
-
 " インデント
 set et ts=2 sts=2 sw=2
-" インデントのスタイル
-set cindent
-
 " コマンドモードのタブ補完
 set wildmenu
 set wildmode=list:full
-" ステータスライン
+" ステータスラインを常に表示
 set laststatus=2
+" ステータスラインに表示する情報。ただしlightline.vimに上書きされる
 set statusline=%F%<\ %m\ %r%=%l\ /\ %L
-set noshowmode
-
 " 2バイト文字の表示崩れを解消
 set ambiwidth=double
 " 文字の可視化
-set list
-set listchars=eol:↲
-
+set list listchars=tab:¦\ 
 " 常にタブページを表示
 set showtabline=2
 
@@ -171,6 +161,16 @@ nnoremap > >>
 nnoremap < <<
 nnoremap n nzz
 nnoremap N Nzz
+vnoremap < <gv
+vnoremap > >gv
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-d> <Del>
+cnoremap <C-h> <BS>
+inoremap <C-j> <C-o>j<C-o><C-e>
+inoremap <C-k> <C-o>k<C-o><C-y>
 
 " ウィンドウ・タブページ
 nnoremap s      <Nop>
@@ -196,19 +196,14 @@ nnoremap sq     :<C-u>q<CR>
 nnoremap sx     :<C-u>x<CR>
 nnoremap sQ     :<C-u>q!<CR>
 
-vnoremap < <gv
-vnoremap > >gv
-inoremap <C-h> <BS>
-" inoremap <C-d> <Del>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-d> <Del>
-cnoremap <C-h> <BS>
-command! Q q!
+" QuickFix
+" map q:copen
+" map q:cclose
+map ]q :cnext
+map [q :cprevious
+
 " ヘルプ
-nnoremap <C-h>      :<C-u>help<Space>
+nnoremap <C-h> :<C-u>help<Space>
 " カーソル位置のワードのヘルプ
 nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w><CR>
 " 検索ハイライトの解除
@@ -216,7 +211,7 @@ nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 " 行番号の絶対表示/相対表示の切替え
 nnoremap <silent><F3> :set relativenumber!<CR>
 " vimrcの再読込み
-nnoremap <silent><F5> :source ~/.vimrc<CR>
+nnoremap <silent><F5> :source ~/.vim/vimrc<CR>
 
 
 "--------------------------------------------------
@@ -242,7 +237,7 @@ if has("autocmd")
     autocmd WinEnter,BufWinEnter * let w:malp = matchadd("zenkaku", '[ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ]')
     autocmd WinEnter,BufWinEnter * let w:mALP = matchadd("zenkaku", '[ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ]')
   augroup END
-  highlight Zenkaku term=underline ctermbg=darkred guibg=darkred
+  highlight Zenkaku term=underline ctermbg=red guibg=red
 endif
 
 " ペースト時インデントが階段状にならないようにする

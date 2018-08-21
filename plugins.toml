@@ -1,101 +1,104 @@
-# プラグイン管理
+###############################
+# Plugin manager
+#
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+###############################
+# Asynchronous execution library
+#
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
+###############################
+# File manager
+#
 [[plugins]]
-repo = 'Shougo/unite.vim'
+repo = 'cocopon/vaffle.vim'
 hook_add = '''
-nnoremap <Leader><Leader>u :<C-u>Unite<Space>
+let g:vaffle_use_default_mappings=0
+let g:vaffle_show_hidden_files=1
+
+" mappings on Vaffle
+function! s:customize_vaffle_mappings() abort
+  nmap <nowait><buffer>~       <Plug>(vaffle-open-home)
+  nmap <nowait><buffer>h       <Plug>(vaffle-open-parent)
+  nmap <nowait><buffer>l       <Plug>(vaffle-open-current)
+  nmap <nowait><buffer>t       <Plug>(vaffle-open-current-tab)
+  nmap <nowait><buffer><Space> <Plug>(vaffle-toggle-current)
+  vmap <nowait><buffer><Space> <Plug>(vaffle-toggle-current)
+  nmap <nowait><buffer>a       <Plug>(vaffle-toggle-all))
+  nmap <nowait><buffer>.       <Plug>(vaffle-toggle-hidden)
+  nmap <nowait><buffer>c       <Plug>(vaffle-fill-cmdline)
+  nmap <nowait><buffer>s       <Plug>(vaffle-open-selected-split)
+  nmap <nowait><buffer>v       <Plug>(vaffle-open-selected-vsplit)
+  nmap <nowait><buffer>d       <Plug>(vaffle-mkdir)
+  nmap <nowait><buffer>f       <Plug>(vaffle-new-file)
+  nmap <nowait><buffer>r       <Plug>(vaffle-refresh)
+  nmap <nowait><buffer>o       <Plug>(vaffle-open-selected)
+  nmap <nowait><buffer>R       <Plug>(vaffle-rename-selected)
+  nmap <nowait><buffer>M       <Plug>(vaffle-move-selected)
+  nmap <nowait><buffer>D       <Plug>(vaffle-delete-selected)
+  nmap <nowait><buffer>C       <Plug>(vaffle-chdir-here)
+  nmap <nowait><buffer>q       <Plug>(vaffle-quit)
+  nmap <nowait><buffer>g       <Plug>(easymotion-bd-jk)
+endfunction
+augroup vimrc_vaffle
+  autocmd!
+  autocmd FileType vaffle call s:customize_vaffle_mappings()
+augroup END
+nnoremap <silent><Leader><Leader>f :<C-u>Vaffle<CR>
+nnoremap <Leader><Leader>F :<C-u>Vaffle<Space>
 '''
 
+###############################
+# Finder
+#
 [[plugins]]
-repo = 'Shougo/vimfiler.vim'
-depends = 'unite.vim'
+repo = 'ctrlpvim/ctrlp.vim'
 hook_add = '''
-let g:vimfiler_as_default_explorer=1
-nnoremap <Leader><Leader>f :<c-u>VimFilerExplorer<cr>
+let g:ctrlp_map = '<Nop>'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20'
+" open new file in current window
+let g:ctrlp_open_new_file = 'r'
+
+nnoremap <silent><Leader>p :<C-u>CtrlP<CR>
+nnoremap <Leader>P         :<C-u>CtrlP<Space>
+nnoremap <silent>sb        :<C-u>CtrlPBuffer<CR>
 '''
 
+###############################
+# Colorscheme
+#
 [[plugins]]
-repo = 'Shougo/vimshell.vim'
+repo = 'kaicataldo/material.vim'
 hook_add = '''
-nnoremap <silent><Leader><Leader>s :<C-u>VimShell<CR>
+" value is 'default' | 'palenight' | 'dark'
+let g:material_theme_style = 'palenight'
 '''
-
-# 自動保管
-[[plugins]]
-repo = 'Shougo/neocomplete.vim'
-hook_add = '''
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_underbar_completion = 1
-let g:neocomplete#enable_camel_case_completion = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-" let g:neocomplete#auto_completion_start_length = 2
-
-if !exists('g:neocomplete#delimiter_patterns')
-    let g:neocomplete#delimiter_patterns= {}
-endif
-
-if !exists('g:neocomplete#same_filetypes')
-    let g:neocomplete#same_filetypes = {}
-endif
-
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-
-" <CR>: close popup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-" function! s:my_cr_function()
-"     " For no inserting <CR> key.
-"     return pumvisible() ? "\<C-y>" : "\<CR>"
-" endfunction
-
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
-
-" Enable omni completion.
-if has("autocmd")
-    autocmd!
-    autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
-endif
-'''
-
-# カラースキーム
-[[plugins]]
-repo = 'rainglow/vim'
-
-[[plugins]]
-repo = 'cocopon/iceberg.vim'
-
-[[plugins]]
-repo = 'arcticicestudio/nord-vim'
 
 [[plugins]]
 repo = 'w0ng/vim-hybrid'
 
-# ウィンドウリサイズ
+###############################
+# Window resizer
+#
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
 let g:winresizer_start_key = 'sR'
 '''
 
+###############################
 # 非アクティブウィンドウの淡色化
+#
 [[plugins]]
 repo = 'blueyed/vim-diminactive'
 
+###############################
 # 非アクティブウィンドウのカーソル位置の無色化
+#
 [[plugins]]
 repo = 'mtth/cursorcross.vim'
 hook_add  = '''
@@ -103,134 +106,143 @@ let g:cursorcross_no_map_BS = 1
 let g:cursorcross_dynamic = 'lw'
 '''
 
-# スムーススクロール
-[[plugins]]
-repo = 'yuttie/comfortable-motion.vim'
-hook_add = '''
-let g:comfortable_motion_no_default_key_mappings = 1
-let g:comfortable_motion_impulse_multiplier = 1
-nnoremap <silent> <C-d> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 2)<CR>
-nnoremap <silent> <C-u> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -2)<CR>
-nnoremap <silent> <C-f> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 4)<CR>
-nnoremap <silent> <C-b> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -4)<CR>
-'''
-
-# Undo/Redoの可視化
-[[plugins]]
-repo = 'sjl/gundo.vim'
-hook_add = '''
-nnoremap <silent><Leader><Leader>g :<C-u>GundoToggle<CR>
-'''
-
-# ステータスラインをリッチに
+###############################
+# Rich status line
+#
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''
+set noshowmode
 let g:lightline = {
-    \ 'colorscheme': 'nord',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-    \   'right': [ [ 'lineinfo' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-    \ },
-    \ 'inactive': {
-    \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-    \   'right': [ [ 'lineinfo' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-    \ },
-    \ 'component_function': {
-    \   'modified':     'LightlineModified',
-    \   'readonly':     'LightlineReadonly',
-    \   'fugitive':     'LightlineFugitive',
-    \   'lineinfo':     'LightlineLineinfo',
-    \   'filename':     'LightlineFilename',
-    \   'fileformat':   'LightlineFileformat',
-    \   'filetype':     'LightlineFiletype',
-    \   'fileencoding': 'LightlineFileencoding',
-    \   'mode':         'LightlineMode',
-    \ },
-    \ 'separator': { 'left': "\u2b80", 'right': "\u2b82" },
-    \ 'subseparator': { 'left': "\u2b81", 'right': "\u2b83" }
-    \ }
+\   'colorscheme': 'material_vim',
+\   'active': {
+\     'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+\     'right': [ [ 'lineinfo' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+\   },
+\   'inactive': {
+\     'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+\     'right': [ [ 'lineinfo' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+\   },
+\   'component_function': {
+\     'modified':     'LightlineModified',
+\     'readonly':     'LightlineReadonly',
+\     'fugitive':     'LightlineFugitive',
+\     'lineinfo':     'LightlineLineinfo',
+\     'filename':     'LightlineFilename',
+\     'fileformat':   'LightlineFileformat',
+\     'filetype':     'LightlineFiletype',
+\     'fileencoding': 'LightlineFileencoding',
+\     'mode':         'LightlineMode',
+\   },
+\ }
 
 function! LightlineModified()
-    return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
 function! LightlineReadonly()
-    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? "\u2b64" : ''
+  return &ft !~? 'help' && &readonly ? "\u2b64" : ''
 endfunction
 
 function! LightlineFugitive()
-    try
-        if expand('%:t') !~? 'Tagbar\|Gundo\' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-            let branch = fugitive#head()
-            return 50 < winwidth(0) ? (branch !=# '' ? "\u2b60".branch : '') : ''
-        endif
-    catch
-    endtry
-    return ''
+  try
+    if expand('%:t') !~? 'Tagbar' && exists('*fugitive#head')
+      let branch = fugitive#head()
+      return 50 < winwidth(0) ? (branch !=# '' ? "\u2b60 ".branch : '') : ''
+    endif
+  catch
+  endtry
+  return ''
 endfunction
 
 function! LightlineLineinfo()
-    let cl = line(".")
-    let ll = line("$")
-    let cc = col(".")
-    let li = printf("%d/%d:%3d", cl, ll, cc)
-    return 70 < winwidth(0) ? "\u2b61" . li : ''
+  let cl = line(".")
+  let ll = line("$")
+  let cc = col(".")
+  let li = printf("%d/%d:%3d", cl, ll, cc)
+  return 70 < winwidth(0) ? "\u2b61" . li : ''
 endfunction
 
 function! LightlineFilename()
-    let fpath = expand('%:p')
-    return fpath =~ '__Gundo' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-        \ ('' != fpath ? fpath : '[No Name]') .
-        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+  let fpath = expand('%')
+  return (LightlineReadonly() == '' ? '' : LightlineReadonly() . ' ') .
+  \ (fpath == '' ? '[No Name]' : fpath ) .
+  \ (LightlineModified() == '' ? '' : ' ' . LightlineModified())
 endfunction
 
 function! LightlineFileformat()
-    return 70 < winwidth(0) ? &fileformat : ''
+  return 70 < winwidth(0) ? &fileformat : ''
 endfunction
 
 function! LightlineFiletype()
-    return 70 < winwidth(0) ? (&filetype !=# '' ? &filetype : 'No FT') : ''
+  return 70 < winwidth(0) ? (&filetype == '' ? 'No FT' : &filetype) : ''
 endfunction
 
 function! LightlineFileencoding()
-    return 70 < winwidth(0) ? (&fenc !=# '' ? &fenc : &enc) : ''
+  return 70 < winwidth(0) ? (&fenc == '' ? &enc : &fenc) : ''
 endfunction
 
 function! LightlineMode()
-    let fname = expand('%:t')
-    return fname == '__Gundo__' ? 'Gundo' :
-        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ &ft == 'vimshell' ? 'VimShell' :
-        \ 20 < winwidth(0) ? lightline#mode() :
-        \ lightline#mode() == 'NORMAL' ? 'N' :
-        \ lightline#mode() == 'INSERT' ? 'I':
-        \ lightline#mode() == 'VISUAL' ? 'V' :
-        \ lightline#mode() == 'V-LINE' ? 'VL' :
-        \ lightline#mode() == 'V-BLOCK' ? 'VB' :
-        \ lightline#mode() == 'REPLACE' ? 'R' : ''
+  let fname = expand('%:t')
+  return
+  \ lightline#mode() == 'NORMAL'  ? 'N'  :
+  \ lightline#mode() == 'INSERT'  ? 'I'  :
+  \ lightline#mode() == 'VISUAL'  ? 'V'  :
+  \ lightline#mode() == 'V-LINE'  ? 'VL' :
+  \ lightline#mode() == 'V-BLOCK' ? 'VB' :
+  \ lightline#mode() == 'SELECT'  ? 'S'  :
+  \ lightline#mode() == 'REPLACE' ? 'R'  :
+  \ ''
 endfunction
 '''
 
-# 閉じ括弧の自動保管
-[[plugins]]
-repo = 'Townk/vim-autoclose'
+###############################
+# Minimap
+#
+# [[plugins]]
+# repo = 'hisaknown/nanomap.vim'
+# on_if = 'has("job") && exists("*setbufline")'
+# hook_add = '''
+# let g:nanomap_auto_realign=1
+# let g:nanomap_auto_open_close=1
+# let g:nanomap_highlight_delay=100
+# let g:nanomap_width=6
+# '''
 
-# 簡単コメントアウト
+###############################
+# 閉じ括弧の自動保管 & 括弧直後に改行でカーソル位置調整
+#
+[[plugins]]
+repo = 'cohama/lexima.vim'
+on_i = 1
+hook_post_source = '''
+" <C-h>を<BS>と同じ挙動にする
+call lexima#add_rule({'char': '<C-h>', 'at': '(\%#)',   'delete': 1})
+call lexima#add_rule({'char': '<C-h>', 'at': '{\%#}',   'delete': 1})
+call lexima#add_rule({'char': '<C-h>', 'at': '\[\%#\]', 'delete': 1})
+call lexima#add_rule({'char': '<C-h>', 'at': '"\%#"',   'delete': 1})
+call lexima#add_rule({'char': '<C-h>', 'at': "'\\%#'",  'delete': 1})
+call lexima#add_rule({'char': '<C-h>', 'at': '`\%#`',   'delete': 1})
+" TOMLファイルではシングル・ダブルクォート6つの真ん中で改行
+call lexima#add_rule({'char': '<CR>', 'at': "'\\{3\}\\%#'\\{3\}", 'input_after': '<CR>', 'filetype': 'toml'})
+call lexima#add_rule({'char': '<CR>', 'at': '"""\%#"""', 'input_after': '<CR>', 'filetype': 'toml'})
+'''
+
+###############################
+# Comment out
+#
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 
-# Gitのラッパー
+###############################
+# Git command
+#
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
-# Gitのワーキングツリーを行単位で可視化
+###############################
+# Git status visualizer
+#
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
@@ -238,103 +250,242 @@ set updatetime=250
 let g:gitgutter_diff_args = '-w'
 '''
 
-# 行末の空白の可視化
+###############################
+# Space visualizer
+#
 [[plugins]]
 repo = 'ntpeters/vim-better-whitespace'
 
-# 高速カーソル移動
+###############################
+# cursor mover
+#
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 hook_add = '''
+" Disabled default mappings
 let g:EasyMotion_do_mapping=0
-let g:EasyMotion_smartcase=1
-nmap f          <Plug>(easymotion-fl)
-vmap f          <Plug>(easymotion-fl)
-nmap F          <Plug>(easymotion-Fl)
-vmap F          <Plug>(easymotion-Fl)
-nmap t          <Plug>(easymotion-tl)
-vmap t          <Plug>(easymotion-tl)
-nmap T          <Plug>(easymotion-Tl)
-vmap T          <Plug>(easymotion-Tl)
-nmap ;          <Plug>(easymotion-next)
-vmap ;          <Plug>(easymotion-next)
-nmap ,          <Plug>(easymotion-prev)
-vmap ,          <Plug>(easymotion-prev)
-map  <Leader>l  <Plug>(easymotion-lineforward)
-map  <Leader>h  <Plug>(easymotion-linebackward)
-map  <Leader>j  <Plug>(easymotion-j)
-map  <Leader>k  <Plug>(easymotion-k)
-nmap <Leader>f  <Plug>(easymotion-overwin-f)
-vmap <Leader>f  <Plug>(easymotion-bd-f)
-nmap <Leader>2f <Plug>(easymotion-overwin-f2)
-vmap <Leader>2f <Plug>(easymotion-bd-f2)
-nmap <Leader>L  <Plug>(easymotion-overwin-line)
-vmap <Leader>L  <Plug>(easymotion-bd-jk)
-nmap <Leader>w  <Plug>(easymotion-overwin-w)
-vmap <Leader>w  <Plug>(easymotion-bd-w)
+
+" Mappings
+map  f          <Plug>(easymotion-bd-fl)
+map  e          <Plug>(easymotion-bd-e)
+map  E          <Plug>(easymotion-bd-E)
+map  ;          <Plug>(easymotion-next)
+map  ,          <Plug>(easymotion-prev)
+" map  <S-j>      <Plug>(easymotion-j)
+" map  <S-k>      <Plug>(easymotion-k)
+nmap <S-f>      <Plug>(easymotion-overwin-f2)
+vmap <S-f>      <Plug>(easymotion-bd-f2)
+" Avoid collisions with text objects
+nmap w          <Plug>(easymotion-bd-w)
+vmap w          <Plug>(easymotion-bd-w)
+nmap W          <Plug>(easymotion-bd-W)
+vmap W          <Plug>(easymotion-bd-W)
+" dat: delete a tag
+" dit: delete inner tag
+" dt : find char
+map  t          <Plug>(easymotion-bd-tl)
 '''
 
+###############################
 # カーソル位置のワードと同じワードを強調
+#
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
 
-# インデントの可視化
+###############################
+# Indent visualizer
+#
 [[plugins]]
 repo = 'Yggdroot/indentLine'
+on_if = 'has("conceal")'
 hook_add = '''
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_conceallevel = 1
+let g:indentLine_char = '¦'
 let g:indentLine_bufTypeExclude = ['help']
-let g:indentLine_fileTypeExclude = ['diff', 'vimfiler', 'gundo']
+let g:indentLine_fileTypeExclude = ['diff']
+
+" Disable indentLine in insert mode
+autocmd InsertEnter *.json setlocal concealcursor=
+autocmd InsertLeave *.json setlocal concealcursor=inc
 '''
 
+###############################
 # 括弧などの囲いの編集の効率化
+#
 [[plugins]]
 repo = 'tpope/vim-surround'
 
-# カーソル複製
-[[plugins]]
-repo = 'terryma/vim-multiple-cursors'
-hook_add = '''
-let g:multi_cursor_exit_from_visual_mode=0
-let g:multi_cursor_exit_from_insert_mode=0
-
-" for NeoComlete
-function! Multiple_cursors_before()
-    if exists(':NeoCompleteLock')==2
-        exe 'NeoCompleteLock'
-    endif
-endfunction
-
-function! Multiple_cursors_after()
-    if exists(':NeoCompleteUnlock')==2
-        exe 'NeoCompleteUnlock'
-    endif
-endfunction
-'''
-
-# toml syntax
+###############################
+# Toml syntax highlighter
+#
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
+###############################
+# JavaScript syntax highlighter
+#
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = ['javascript', 'javascript.jsx']
+hook_add = '''
+let g:javascript_plugin_jsdoc = 1
+'''
+
+###############################
+# Expand JavaScript syntax highlighter
+#
+[[plugins]]
+repo = 'MaxMEllon/vim-jsx-pretty'
+on_ft = ['javascript', 'javascript.jsx']
+depends = 'vim-javascript'
+hook_add = '''
+let g:vim_jsx_pretty_colorful_config = 1
+'''
+
+###############################
+# TypeScript syntax highlighter
+#
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = ['typescript']
+hook_add = '''
+'''
+
+###############################
+# TSX syntax highlighter
+#
+[[plugins]]
+repo = 'ianks/vim-tsx'
+on_ft = ['typescript']
+depends = 'typescript-vim'
+
+###############################
+# Golang support
+#
+[[plugins]]
+repo = 'fatih/vim-go'
+on_ft = 'go'
+hook_add = '''
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_chan_whitespace_error = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_arguments = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+'''
+
+###############################
 # カーソル位置のコンテキストからfiletypeを判別
+#
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 
+###############################
 # カーソル位置のコンテキストからfiletypeの切替え
+#
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
 
-# HTMLとCSSの入力高速化
+###############################
+# Convert abbreviations into HTML or CSS
+#
 [[plugins]]
 repo = 'mattn/emmet-vim'
 hook_add = '''
 let g:user_emmet_leader_key = '<C-e>'
 let g:user_emmet_settings = {
-    \   'variables': {
-    \       'lang': "ja"
-    \   }
-    \ }
+\   'variables': {
+\       'lang': "ja"
+\   }
+\ }
+'''
+
+###############################
+# Auto completion
+#
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+on_i = 1
+hook_add = '''
+" Use neocomplete
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase
+let g:neocomplete#enable_smart_case = 1
+" Complement to the matching position
+inoremap <expr><C-l> neocomplete#complete_common_string()
+
+" Define dictionary
+" let g:neocomplete#sources#dictionary#dictionaries = {
+" \ 'default' : '',
+" \ 'scheme' : $HOME.'/.gosh_completions'
+" \ }
+
+" Define keyword
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns._ = '\h\w*'
+
+if !exists('g:neocomplete#delimiter_patterns')
+  let g:neocomplete#delimiter_patterns= {}
+endif
+
+if !exists('g:neocomplete#same_filetypes')
+  let g:neocomplete#same_filetypes = {}
+endif
+
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+" let g:neocomplete#sources#omni#input_patterns.typescript = '\h\w*\|[^. \t]\.\w*'
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+let g:neocomplete#sources#omni#input_patterns.go = '\h\w\.\w*'
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+" let g:neocomplete#force_omni_input_patterns.typescript = '[^. *\t]\.\w*\|\h\w*::'
+
+" <CR>: close popup and save indent
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+
+" <C-h>, <BS>: close popup and delete backword char
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
+
+" Enable omni completion
+if has("autocmd")
+  autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType php           setlocal omnifunc=phpcomplete#CompletePHP
+  autocmd FileType ruby          setlocal omnifunc=rubycomplete#CompleteRuby
+  autocmd FileType python        setlocal omnifunc=pythoncomplete#CompletePython
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+endif
+'''
+
+###############################
+# Japanese help
+#
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+hook_add = '''
+set helplang=ja,en
 '''
